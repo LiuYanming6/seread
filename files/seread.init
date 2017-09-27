@@ -1,0 +1,15 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+
+start() {
+    local flag="$(uci get mesh.seread.enable)"
+    if [ $flag -eq 1 ];then
+        ip route add broadcast 255.255.255.255 dev br-lan
+	    service_start /usr/bin/seread
+    fi
+}
+stop() {
+    service_stop  /usr/bin/seread
+}
+

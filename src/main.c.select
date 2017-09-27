@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/epoll.h>
+#include <sys/select.h>
+
+#include "net_op.h"
+#include "ser_op.h"
+#include "epoll_op.h"
+
+#define MAXEVENTS 64
+
+int main (int argc, char *argv[])
+{
+    int net_fd;
+    int ser_fd;
+    int efd;
+    int iRet;
+    struct epoll_event event;
+    struct epoll_event *events;
+    unsigned char buf[128];
+    fd_set rfds;
+    struct timeval tv;
+    int i;
+
+    net_fd = Net_bind();
+    ser_fd = Ser_open();
+
+    for(;;) 
+    {
+        FD_ZERO(&rfds);
+        FD_SET(net_fd, &rfds);
+        FD_SET(ser_fd, &rfds);
+
+        //timeout = 5s
+        tv.tv_sec = 1;
+        tv.tv_usec = 0;
+        //Wait for 5 seconds, then go
+        int n;
+        n = select(ser_fd + 1, &rfds, NULL, NULL, &tv);
+        //choose the target from set
+
+        if(n > 0) {
+            for (i = 3; i <= ser_fd; i++)
+            {
+                if (FD_ISSET(net_fd, &rfds)) 
+                {
+                    printf("net_fd\n");
+                    iRet = Net_rcv(net_fd, buf, sizeof(buf));
+                    if ((iRet > 0) && (buf[0] == 0xcc))
+                    {
+                        Ser_write(buf+1, iRet-1);
+                    }
+                }
+                else if (FD_ISSET(ser_fd, &rfds)) 
+                {
+                    printf("ser_fd\n");
+                    buf[0] = 0x99;
+                    iRet = Ser_read(buf+1, sizeof(buf-1));
+                    if (iRet > 0)
+                    {
+                        Net_send(buf, iRet+1);
+                    }
+                }
+            }
+        }
+        iRet = Ser_read(buf+1, sizeof(buf-1));
+        if (iRet > 0)
+        {
+            Net_send(buf, iRet);
+        }
+    }
+
+    close (net_fd);
+    close (ser_fd);
+
+    return EXIT_SUCCESS;
+}

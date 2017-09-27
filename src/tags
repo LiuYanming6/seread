@@ -1,0 +1,32 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Epoll_add	epoll_op.c	/^int Epoll_add(int fd, void *pFunc)$/;"	f
+Epoll_init	epoll_op.c	/^int Epoll_init()$/;"	f
+LIBS	Makefile	/^LIBS=$/;"	m
+MAXEVENTS	main.c	16;"	d	file:
+Net_bind	net_op.c	/^int Net_bind()$/;"	f
+Net_rcv	net_op.c	/^int Net_rcv(int fd, unsigned char *buf, int buflen)$/;"	f
+Net_send	net_op.c	/^int Net_send(unsigned char *buf, int buflen)$/;"	f
+OBJS	Makefile	/^OBJS=$(SRCS:.c=.o)$/;"	m
+SRCS	Makefile	/^SRCS=*.c $/;"	m
+Ser_open	ser_op.c	/^int Ser_open()$/;"	f
+Ser_read	ser_op.c	/^int Ser_read(unsigned char *buf, int buflen)$/;"	f
+Ser_write	ser_op.c	/^int Ser_write(unsigned char *buf, int buflen)$/;"	f
+TARGET	Makefile	/^TARGET=seread$/;"	m
+_EPOLL_OP_H	epoll_op.h	9;"	d
+_NET_OP_H	net_op.h	9;"	d
+_SER_OP_H	ser_op.h	9;"	d
+broStr	net_op.c	/^static char *broStr = "255.255.255.255";$/;"	v	file:
+create_socket	net_op.c	/^int create_socket()$/;"	f
+efd	epoll_op.c	/^static int efd;$/;"	v	file:
+error	net_op.c	/^void error(const char *msg)$/;"	f
+fd	ser_op.c	/^static int fd;$/;"	v	file:
+main	main.c	/^int main (int argc, char *argv[])$/;"	f
+make_socket_non_blocking	epoll_op.c	/^static int make_socket_non_blocking (int sfd)$/;"	f	file:
+serv_addr	net_op.c	/^static struct sockaddr_in serv_addr;$/;"	v	typeref:struct:sockaddr_in	file:
+test_main	net_op.c	/^int test_main(int argc, char *argv[])$/;"	f
+testser_main	ser_op.c	/^int testser_main()$/;"	f
